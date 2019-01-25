@@ -129,12 +129,12 @@ class CLSHyperParams(LMHyperParams):
 
         try:
             if force: raise FileNotFoundError("Forcing reloading of caches")
-            data_lm = TextLMDataBunch.load(self.cache_dir, 'lm', lm_type=self.lm_type, bs=bs)
+            data_lm = TextLMDataBunch.load(self.cache_dir, 'lm', backwards=self.backwards, bs=bs)
             print(f"Tokenized data loaded, lm.trn {len(data_lm.train_ds)}, lm.val {len(data_lm.valid_ds)}")
         except FileNotFoundError:
             print(f"Running tokenization...")
             data_lm = TextLMDataBunch.from_df(path=self.cache_dir, train_df=lm_trn_df, valid_df=lm_val_df,
-                                              max_vocab=self.max_vocab, bs=bs, lm_type=self.lm_type, **args)
+                                              max_vocab=self.max_vocab, bs=bs, backwards=self.backwards, **args)
             print(f"Saving tokenized: cls.trn {len(data_lm.train_ds)}, cls.val {len(data_lm.valid_ds)}")
             data_lm.save('lm')
 
