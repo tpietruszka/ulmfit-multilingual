@@ -146,7 +146,8 @@ class CLSHyperParams(LMHyperParams):
             args['vocab'] = data_lm.vocab  # make sure we use the same vocab for classifcation
             print(f"Running tokenization...")
             data_cls = TextClasDataBunch.from_df(path=self.cache_dir, train_df=trn_df, valid_df=val_df,
-                                                 test_df=tst_df, max_vocab=self.max_vocab, bs=bs, **args)
+                                                 test_df=tst_df, max_vocab=self.max_vocab, bs=bs,
+                                                 backwards=self.backwards, **args)
             print(f"Saving tokenized: cls.trn {len(data_cls.train_ds)}, cls.val {len(data_cls.valid_ds)}")
             data_cls.save(cls_cache)
         print('Size of vocabulary:', len(data_lm.vocab.itos))
